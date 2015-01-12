@@ -137,7 +137,7 @@ partial class GoogleDrive
 
 			return userAccount;
 		}
-		private set
+		set
 		{
 			if (userAccount != value)
 			{

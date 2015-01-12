@@ -20,6 +20,13 @@ public class GetTask : MonoBehaviour {
         drive.ClientID = "897584417662-rnkgkl5tlpnsau7c4oc0g2jp08cpluom.apps.googleusercontent.com";
         drive.ClientSecret = "tGNLbYnrdRO2hdFmwJAo5Fbt";
 
+        if (drive.UserAccount != "game.mk.host@gmail.com") {
+            drive.UserAccount = "game.mk.host@gmail.com";
+
+            var unauthorization = drive.Unauthorize();
+            yield return StartCoroutine(unauthorization);
+        }
+
         var authorization = drive.Authorize();
         yield return StartCoroutine(authorization);
 
@@ -29,10 +36,7 @@ public class GetTask : MonoBehaviour {
         }
         else
             Debug.Log("User Account: " + drive.UserAccount);
-
-        Debug.Log("User ClientID: " + drive.ClientID);
-        Debug.Log("User ClientSecret: " + drive.ClientSecret);
-
+        
         // Get all files in AppData folder and view text file.
         {
             var listFiles = drive.ListFiles(drive.AppData);
