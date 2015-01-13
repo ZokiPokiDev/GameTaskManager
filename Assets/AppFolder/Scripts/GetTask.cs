@@ -15,6 +15,7 @@ public class GetTask : MonoBehaviour {
 	// Use this for initialization
 	IEnumerator Start () {
         initInProgress = true;
+        print("start progress");
 
         drive = new GoogleDrive();
         drive.ClientID = "897584417662-rnkgkl5tlpnsau7c4oc0g2jp08cpluom.apps.googleusercontent.com";
@@ -22,14 +23,18 @@ public class GetTask : MonoBehaviour {
 
         if (drive.UserAccount != "game.mk.host@gmail.com") {
             drive.UserAccount = "game.mk.host@gmail.com";
-
+            
+            print("deautorize");
             var unauthorization = drive.Unauthorize();
             yield return StartCoroutine(unauthorization);
+
+            print("finish deautorized");
         }
 
         var authorization = drive.Authorize();
         yield return StartCoroutine(authorization);
 
+        print("finish autorized");
         if (authorization.Current is Exception) {
             Debug.LogWarning(authorization.Current as Exception);
             goto finish;
