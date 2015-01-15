@@ -1,0 +1,48 @@
+Initialize engine version: 4.6.1f1 (d1db7a1b5196)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 10.1]
+    Renderer: Intel(R) HD Graphics Family (ID=0x106)
+    Vendor:   Intel
+    VRAM:     128 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\Programming\Unity\Test projects\unity-googledrive-master\GameTaskManager\DesktopBuild\TaskManager_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\Programming\Unity\Test projects\unity-googledrive-master\GameTaskManager\DesktopBuild\TaskManager_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\Programming\Unity\Test projects\unity-googledrive-master\GameTaskManager\DesktopBuild\TaskManager_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\Programming\Unity\Test projects\unity-googledrive-master\GameTaskManager\DesktopBuild\TaskManager_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\Programming\Unity\Test projects\unity-googledrive-master\GameTaskManager\DesktopBuild\TaskManager_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\Programming\Unity\Test projects\unity-googledrive-master\GameTaskManager\DesktopBuild\TaskManager_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\Programming\Unity\Test projects\unity-googledrive-master\GameTaskManager\DesktopBuild\TaskManager_Data\Managed\Ionic.Zlib.dll (this message is harmless)
+Loading D:\Programming\Unity\Test projects\unity-googledrive-master\GameTaskManager\DesktopBuild\TaskManager_Data\Managed\Ionic.Zlib.dll into Unity Child Domain
+Platform assembly: D:\Programming\Unity\Test projects\unity-googledrive-master\GameTaskManager\DesktopBuild\TaskManager_Data\Managed\JsonFx.Json.dll (this message is harmless)
+Loading D:\Programming\Unity\Test projects\unity-googledrive-master\GameTaskManager\DesktopBuild\TaskManager_Data\Managed\JsonFx.Json.dll into Unity Child Domain
+- Completed reload, in  0.077 seconds
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initializing input.
+XInput1_3.dll not found.
+<RI> Input initialized.
+Platform assembly: D:\Programming\Unity\Test projects\unity-googledrive-master\GameTaskManager\DesktopBuild\TaskManager_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\Programming\Unity\Test projects\unity-googledrive-master\GameTaskManager\DesktopBuild\TaskManager_Data\Managed\System.dll (this message is harmless)
+start progress
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Platform assembly: D:\Programming\Unity\Test projects\unity-googledrive-master\GameTaskManager\DesktopBuild\TaskManager_Data\Managed\Mono.Security.dll (this message is harmless)
+Platform assembly: D:\Programming\Unity\Test projects\unity-googledrive-master\GameTaskManager\DesktopBuild\TaskManager_Data\Managed\System.Configuration.dll (this message is harmless)
+Platform assembly: D:\Programming\Unity\Test projects\unity-googledrive-master\GameTaskManager\DesktopBuild\TaskManager_Data\Managed\System.Xml.dll (this message is harmless)
+finish autorized
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+User Account: game.mk.host@gmail.com
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Found one file
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+stop progress
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+

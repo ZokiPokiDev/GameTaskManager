@@ -1,156 +1,85 @@
-﻿using System;
-using System.Text;
+﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-using System.IO;
 
 public class GetTask : MonoBehaviour {
 
-    GoogleDrive drive;
-    bool uploadTextInProgress;
-    bool initInProgress;
-
-	// Use this for initialization
-	IEnumerator Start () {
-        initInProgress = true;
-        print("start progress");
-
-        drive = new GoogleDrive();
-        drive.ClientID = "897584417662-rnkgkl5tlpnsau7c4oc0g2jp08cpluom.apps.googleusercontent.com";
-        drive.ClientSecret = "tGNLbYnrdRO2hdFmwJAo5Fbt";
-
-        if (drive.UserAccount != "game.mk.host@gmail.com") {
-            drive.UserAccount = "game.mk.host@gmail.com";
-            
-            print("deautorize");
-            var unauthorization = drive.Unauthorize();
-            yield return StartCoroutine(unauthorization);
-
-            print("finish deautorized");
-        }
-
-        var authorization = drive.Authorize();
-        yield return StartCoroutine(authorization);
-
-        print("finish autorized");
-        if (authorization.Current is Exception) {
-            Debug.LogWarning(authorization.Current as Exception);
-            goto finish;
-        }
-        else
-            Debug.Log("User Account: " + drive.UserAccount);
-        
-        // Get all files in AppData folder and view text file.
-        {
-            var listFiles = drive.ListFiles(drive.AppData);
-            yield return StartCoroutine(listFiles);
-            var files = GoogleDrive.GetResult<List<GoogleDrive.File>>(listFiles);
-
-            if (files != null) {
-                foreach (var file in files) {
-                    Debug.Log(file);
-
-                    if (file.Title.EndsWith(".txt")) {
-                        var download = drive.DownloadFile(file);
-                        yield return StartCoroutine(download);
-
-                        var data = GoogleDrive.GetResult<byte[]>(download);
-                        Debug.Log(System.Text.Encoding.UTF8.GetString(data));
-                    }
-                }
-            }
-            else {
-                Debug.LogError(listFiles.Current);
-            }
-        }
-
-    finish:
-        initInProgress = false;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetKey(KeyCode.Escape))
-            Application.Quit();
-	}
-
-    public void UploadTextToDrive(){
-        StartCoroutine("UploadText");
-    }
-
-    /// <summary>
-    /// <para>Update 'my_text.txt' in the root folder.</para>
-    /// <para>The file has json data.</para>
-    /// </summary>
-    IEnumerator UploadText() {
-        if (drive == null || !drive.IsAuthorized || uploadTextInProgress)
-            yield break;
-
-        uploadTextInProgress = true;
-
-        // Get 'my_text.txt'.
-        var list = drive.ListFilesByQueary("title = 'my_text.txt'");
-        yield return StartCoroutine(list);
-
-        GoogleDrive.File file;
-        Dictionary<string, object> data;
-
-        var files = GoogleDrive.GetResult<List<GoogleDrive.File>>(list);
-
-        if (files == null || files.Count > 0) {
-            // Found!
-            file = files[0];
-
-            // Download file data.
-            var download = drive.DownloadFile(file);
-            yield return StartCoroutine(download);
-
-            var bytes = GoogleDrive.GetResult<byte[]>(download);
-            try {
-                // Data is json format.
-                var reader = new JsonFx.Json.JsonReader(Encoding.UTF8.GetString(bytes));
-                data = reader.Deserialize<Dictionary<string, object>>();
-            }
-            catch (Exception e) {
-                Debug.LogWarning(e);
-
-                data = new Dictionary<string, object>();
-            }
+    public GameObject cantAssigne;
+    public GameObject mainInterfacePanel, userInterfacePanel;
+    
+    public void UpdateButtonText(GameObject obj) {
+        if (transform.GetComponentInChildren<Text>().text == "none") {
+            transform.GetComponentInChildren<Text>().text = obj.GetComponent<Text>().text;
+            transform.GetComponent<Image>().color = Color.red;
         }
         else {
-            // Make a new file.
-            file = new GoogleDrive.File(new Dictionary<string, object>
-			{
-				{ "title", "test_text.txt" },
-				{ "mimeType", "text/plain" },
-				{ "description", "test" }
-			});
-            data = new Dictionary<string, object>();
-        }
+            if (transform.GetComponentInChildren<Text>().text == obj.GetComponent<Text>().text) {
+                transform.GetComponentInChildren<Text>().text = "none";
+                transform.GetComponent<Image>().color = Color.green;
+            }
+            else {
+                cantAssigne.transform.GetComponent<Text>().enabled = true;
 
-        // Update file data.
-        data["date"] = DateTime.Now.ToString();
-        if (data.ContainsKey("count"))
-            data["count"] = (int)data["count"] + 1;
-        else
-            data["count"] = 0;
+                foreach (Transform child in userInterfacePanel.transform) {
+                    if (child.GetComponent<Button>() != null)
+                        child.GetComponent<Button>().enabled = false;
+                    if (child.GetComponent<Image>() != null)
+                        child.GetComponent<Image>().enabled = false;
+                    if (child.GetComponentInChildren<Text>() != null)
+                        child.GetComponentInChildren<Text>().enabled = false;
+                    if (child.transform.childCount > 1)
+                        child.transform.GetChild(1).GetComponent<Text>().enabled = false;
+                    if (child.GetComponent<Text>() != null)
+                        child.GetComponent<Text>().enabled = false;
+                }
 
-        data["game 1"] = "zoki";
+                foreach (Transform child in mainInterfacePanel.transform.GetChild(0).transform) {
+                    child.GetComponent<Button>().enabled = false;
+                    child.GetComponent<Image>().enabled = false;
+                    child.GetComponentInChildren<Text>().enabled = false;
+                }
+                foreach (Transform child in mainInterfacePanel.transform.GetChild(1).transform) {
+                    child.GetComponent<Button>().enabled = false;
+                    child.GetComponent<Image>().enabled = false;
+                    child.GetComponentInChildren<Text>().enabled = false;
+                }
 
-        // And uploading...
-        {
-            var bytes = Encoding.UTF8.GetBytes(JsonFx.Json.JsonWriter.Serialize(data));
-
-            var upload = drive.UploadFile(file, bytes);
-            yield return StartCoroutine(upload);
-
-            if (!(upload.Current is Exception)) {
-                Debug.Log("Upload complete!");
+                print("start corutine for access denied");
+                StartCoroutine("AcessDenied", 1f);
             }
         }
+    }
 
-        uploadTextInProgress = false;
+    IEnumerator AcessDenied(float waitTime) {
+        yield return new WaitForSeconds(waitTime);
+
+        cantAssigne.transform.GetComponent<Text>().enabled = false;
+
+        foreach (Transform child in userInterfacePanel.transform) {
+            if (child.GetComponent<Button>() != null)
+                child.GetComponent<Button>().enabled = true;
+            if (child.GetComponent<Image>() != null)
+                child.GetComponent<Image>().enabled = true;
+            if (child.GetComponentInChildren<Text>() != null)
+                child.GetComponentInChildren<Text>().enabled = true;
+            if (child.transform.childCount > 1)
+                child.transform.GetChild(1).GetComponent<Text>().enabled = true;
+            if (child.GetComponent<Text>() != null)
+                child.GetComponent<Text>().enabled = true;
+        }
+
+        foreach (Transform child in mainInterfacePanel.transform.GetChild(0).transform) {
+            child.GetComponent<Button>().enabled = true;
+            child.GetComponent<Image>().enabled = true;
+            child.GetComponentInChildren<Text>().enabled = true;
+        }
+        foreach (Transform child in mainInterfacePanel.transform.GetChild(1).transform) {
+            child.GetComponent<Button>().enabled = true;
+            child.GetComponent<Image>().enabled = true;
+            child.GetComponentInChildren<Text>().enabled = true;
+        }
+
+        print("finished corutine for access denied");
+        StopCoroutine("AcessDenied");
     }
 }
